@@ -5,12 +5,13 @@ import uuid from 'uuid';
 import FormGroup from "react-bootstrap/es/FormGroup";
 import {getDisplayName} from '../Utils/processing';
 
-class TogglesShowIBFlawors extends Component {
+class TogglesShowRow extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             nameList: props.nameList,
-            value: props.initSelections
+            initSelections: props.initSelections,
+            rowName: props.rowName
         };
         this.props.callbackToParent(props.initSelections);
     }
@@ -20,16 +21,16 @@ class TogglesShowIBFlawors extends Component {
     }
 
     onChange = (value) => {
-        this.setState({value});
         this.props.callbackToParent(value);
     };
 
     render() {
+        const {initSelections, nameList, rowName} = this.state;
         return (
             <FormGroup>
-                <span>Flavor: </span>
-                <ToggleButtonGroup bsSize="xsmall" type="checkbox" value={this.state.value} onChange={this.onChange}>
-                    {this.state.nameList.map(item => {
+                <span>{rowName}: </span>
+                <ToggleButtonGroup bsSize="xsmall" type="checkbox" value={initSelections} onChange={this.onChange}>
+                    {nameList.map(item => {
                         return <ToggleButton key={uuid.v4()} value={item}> {getDisplayName(item)} </ToggleButton>
                     })}
                 </ToggleButtonGroup>
@@ -38,4 +39,4 @@ class TogglesShowIBFlawors extends Component {
     }
 }
 
-export default TogglesShowIBFlawors;
+export default TogglesShowRow;

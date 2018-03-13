@@ -21,6 +21,7 @@ class RelValStore extends EventEmitter {
                 const exitCodes = responseList[1].data;
                 this.structure = getStructureFromAvalableRelVals(relvalsAvailableResults);
                 this.emit("change");
+                console.log(this.structure) // TODO delete
             }.bind(this)
         });
     }
@@ -44,7 +45,7 @@ class RelValStore extends EventEmitter {
             try {
                 return this.structure[date][que];
             } catch (ex) {
-                console.log('Wrong params: ' + date + " | " + que);
+                console.error('Wrong params: ' + date + " | " + que + ' ;', ex);
             }
         }
     }
@@ -63,12 +64,12 @@ class RelValStore extends EventEmitter {
         }
     }
 
-
     handleActions(action) {
         switch (action.type) {
             // TODO
         }
     }
+
 }
 
 const relValStore = new RelValStore;
