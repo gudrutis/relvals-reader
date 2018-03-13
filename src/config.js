@@ -21,7 +21,7 @@ export const urls = {
     exitcodes: "https://cms-sw.github.io/exitcodes.json",
     RelvalsAvailableResults: "https://cms-sw.github.io/data/RelvalsAvailableResults.json",
     relValsResult:
-        (arch, date, flavor) => `https://cms-sw.github.io/data/relvals/"${arch}/${date}/${flavor}.json`
+        (arch, date, que, flavor) => `https://cms-sw.github.io/data/relvals/${arch}/${date}/${que}_${flavor}.json`
 };
 export const tooltipDelayInMs = 200;
 

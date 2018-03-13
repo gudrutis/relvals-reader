@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import config from '../../config';
+import * as config from '../../config';
 import uuid from 'uuid';
 import MenuItem from "react-bootstrap/es/MenuItem";
 import {Dropdown, Glyphicon} from "react-bootstrap";

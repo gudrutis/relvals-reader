@@ -35,7 +35,8 @@ class Layout extends Component {
         const {date, que} = this.props.match.params;
         const allArchs = RelValStore.getAllArchsForQue({date, que});
         const allFlavors = RelValStore.getAllFlavorsForQue({date, que});
-        this.setState({allArchs, allFlavors, date, que});
+        const structure = RelValStore.getFlavorStructure({date, que});
+        this.setState({structure, allArchs, allFlavors, date, que});
 
         const {location, history} = this.props;
         if (location.search === "") {
@@ -53,7 +54,8 @@ class Layout extends Component {
         if (date !== oldDate || que !== oldQue) {
             const allArchs = RelValStore.getAllArchsForQue({date, que});
             const allFlavors = RelValStore.getAllFlavorsForQue({date, que});
-            this.setState({allArchs, allFlavors});
+            const structure = RelValStore.getFlavorStructure({date, que});
+            this.setState({structure, allArchs, allFlavors, date, que});
 
             const {location, history} = newProps;
             partiallyUpdateLocationQuery(location, 'selectedArchs', allArchs);

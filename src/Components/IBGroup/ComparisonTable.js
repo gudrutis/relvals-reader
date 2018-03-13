@@ -4,7 +4,7 @@ import {Label, OverlayTrigger, Table, Tooltip} from "react-bootstrap";
 import {getAllActiveArchitecturesFromIBGroupByFlavor, getDisplayName} from '../../Utils/processing';
 import _ from 'underscore';
 import uuid from 'uuid';
-import config from '../../config';
+import * as config from '../../config';
 import ShowArchStore from "../../Stores/ShowArchStore";
 
 const {tooltipDelayInMs, urls} = config;

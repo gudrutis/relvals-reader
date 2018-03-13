@@ -141,7 +141,7 @@ export function getStructureFromAvalableRelVals(relvalInfoObject) {
     const keysList = Object.keys(relvalInfoObject);
     let config = {};
     keysList.map((key) => {
-        const [org, que, flavor, date] = key.match(re);
+        const [fullMatch, que, flavor, date] = key.match(re);
         const archs = relvalInfoObject[key].split(',');
         if (!config[date]) {
             config[date] = {}
@@ -149,12 +149,13 @@ export function getStructureFromAvalableRelVals(relvalInfoObject) {
         if (!config[date][que]) {
             config[date][que] = {
                 flavors: {},
-                allArchs: []
+                allArchs: [],
+                dataLoaded: false
             }
         }
         config[date][que].flavors[flavor] = {};
         archs.map(arch => {
-            config[date][que].flavors[flavor][arch] = undefined;
+            config[date][que].flavors[flavor][arch] = {date, que, flavor, arch};
         });
         config[date][que].allArchs = _.uniq(config[date][que].allArchs.concat(archs));
     });

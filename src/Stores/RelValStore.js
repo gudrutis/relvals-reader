@@ -1,6 +1,5 @@
 import {EventEmitter} from "events";
 import dispatcher from "../dispatcher";
-import ShowArchActionTypes from "../Actions/ShowArchActionTypes";
 import * as config from "../config";
 import {getMultipleFiles} from "../Utils/ajax";
 import {getStructureFromAvalableRelVals} from "../Utils/processing";
@@ -21,24 +20,9 @@ class RelValStore extends EventEmitter {
                 const exitCodes = responseList[1].data;
                 this.structure = getStructureFromAvalableRelVals(relvalsAvailableResults);
                 this.emit("change");
-                console.log(this.structure) // TODO delete
             }.bind(this)
         });
     }
-
-    // getData({date, que, flavorList = [], archList = []}) {
-    //     if (!this.structure) {
-    //         return
-    //     }
-    //     let results = [];
-    //     for (let i = 0; i < flavorList; i++) {
-    //         for (let z = 0; z < archList; z++) {
-    //
-    //         }
-    //     }
-    //
-    //     // this.structure[date][que][flavorList]
-    // }
 
     _getQueData({date, que}) {
         if (this.structure) {
@@ -64,6 +48,45 @@ class RelValStore extends EventEmitter {
         }
     }
 
+    getFlavorStructure({date, que}) {
+        if (this.structure) {
+            try {
+                if (!this.structure[date][que].dataLoaded) {
+                    let archsToLoad = [];
+                    const {flavors} = this.structure[date][que];
+                    const allFlavors = this.getAllFlavorsForQue({date, que});
+                    allFlavors.map(flavorName => {
+                        const archs = Object.keys(flavors[flavorName]);
+                        archs.map(arch => {
+                            archsToLoad.push(flavors[flavorName][arch]);
+                        })
+                    });
+                    getMultipleFiles({
+                        fileUrlList: archsToLoad.map(i => urls.relValsResult(i.arch, i.date, i.que, i.flavor)),
+                        onSuccessCallback: function (responseList) {
+                            for (let i = 0; i < archsToLoad.length; i++) {
+                                console.log(responseList[i].config.url);
+                                console.log(archsToLoad[i]);
+                                const {data} = responseList[i];
+                                const {que, date, arch, flavor} = archsToLoad[i];
+                                this.structure[date][que].dataLoaded = true;
+                                this.structure[date][que].flavors[flavor][arch] = data;
+                                this.emit("change");
+                            }
+                        }.bind(this)
+                    });
+
+                    return this.structure[date][que].flavors;
+                }
+                return this.structure[date][que].flavors;
+            }
+            catch
+                (ex) {
+                console.error('Wrong params: ' + date + " | " + que + ' ;', ex);
+            }
+        }
+    }
+
     handleActions(action) {
         switch (action.type) {
             // TODO
@@ -72,6 +95,13 @@ class RelValStore extends EventEmitter {
 
 }
 
-const relValStore = new RelValStore;
-dispatcher.register(relValStore.handleActions.bind(relValStore));
+const
+    relValStore = new RelValStore;
+dispatcher
+    .register(relValStore
+
+        .handleActions
+        .bind(relValStore)
+    )
+;
 export default relValStore;
