@@ -21,15 +21,15 @@ class Layout extends Component {
         RelValStore.on("change", this.doUpdateData);
     }
 
-    getData({date, que}) {
-        const allArchs = RelValStore.getAllArchsForQue({date, que});
-        const allFlavors = RelValStore.getAllFlavorsForQue({date, que});
-        this.setState({allArchs, allFlavors, date, que});
-        const {location, history} = this.props;
-        // partiallyUpdateLocationQuery(location, 'allArchs', allArchs);
-        // partiallyUpdateLocationQuery(location, 'allFlavors', allFlavors);
-        // goToLinkWithoutHistoryUpdate(history, location);
-    }
+    // getData({date, que}) {
+    //     const allArchs = RelValStore.getAllArchsForQue({date, que});
+    //     const allFlavors = RelValStore.getAllFlavorsForQue({date, que});
+    //     this.setState({allArchs, allFlavors, date, que});
+    //     const {location, history} = this.props;
+    //     // partiallyUpdateLocationQuery(location, 'allArchs', allArchs);
+    //     // partiallyUpdateLocationQuery(location, 'allFlavors', allFlavors);
+    //     // goToLinkWithoutHistoryUpdate(history, location);
+    // }
 
     doUpdateData() {
         const {date, que} = this.props.match.params;
@@ -64,7 +64,6 @@ class Layout extends Component {
         }
     }
 
-
     getNavigationHeight() {
         const navigationHeight = document.getElementById('navigation').clientHeight;
         this.setState({navigationHeight});
@@ -84,6 +83,13 @@ class Layout extends Component {
     render() {
         const {navigationHeight, allArchs = [], allFlavors = []} = this.state;
         const {selectedArchs, selectedFlavors} = queryString.parse(this.props.location.search);
+        let data;
+        const {structure = {}} = this.state;
+        if (structure.dataLoaded) {
+            data = <JSONPretty json={this.state}/>;
+        } else {
+            data = <h1>Data is still loading</h1>
+        }
         return (
             <div className={'container'} style={{paddingTop: navigationHeight + 20}}>
                 <Navigation
@@ -114,7 +120,7 @@ class Layout extends Component {
                 <h1>Location search</h1>
                 <JSONPretty json={queryString.parse(this.props.location.search)}/>
                 <h1>State</h1>
-                <JSONPretty json={this.state}/>
+                {data}
             </div>
         );
     }

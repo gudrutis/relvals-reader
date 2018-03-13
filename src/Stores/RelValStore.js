@@ -65,20 +65,18 @@ class RelValStore extends EventEmitter {
                         fileUrlList: archsToLoad.map(i => urls.relValsResult(i.arch, i.date, i.que, i.flavor)),
                         onSuccessCallback: function (responseList) {
                             for (let i = 0; i < archsToLoad.length; i++) {
-                                console.log(responseList[i].config.url);
-                                console.log(archsToLoad[i]);
                                 const {data} = responseList[i];
                                 const {que, date, arch, flavor} = archsToLoad[i];
-                                this.structure[date][que].dataLoaded = true;
+
                                 this.structure[date][que].flavors[flavor][arch] = data;
-                                this.emit("change");
                             }
+                            this.structure[date][que].dataLoaded = true;
+                            this.emit("change");
                         }.bind(this)
                     });
-
-                    return this.structure[date][que].flavors;
+                    return this.structure[date][que];
                 }
-                return this.structure[date][que].flavors;
+                return this.structure[date][que];
             }
             catch
                 (ex) {
