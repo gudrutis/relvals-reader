@@ -3,10 +3,9 @@ import Navbar from "react-bootstrap/es/Navbar";
 import NavDropdown from "react-bootstrap/es/NavDropdown";
 import Nav from "react-bootstrap/es/Nav";
 import {Button, Col, Glyphicon, Modal, Row} from "react-bootstrap";
-import config from '../config';
 import Dropdown from "react-bootstrap/es/Dropdown";
 
-const {urls} = config;
+import {urls, legend} from '../config';
 
 class Navigation extends Component {
 
@@ -35,7 +34,7 @@ class Navigation extends Component {
                     <Modal.Title>Legend</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    // TODO LEGEND
+                    {legend}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.handleClose}>Close</Button>

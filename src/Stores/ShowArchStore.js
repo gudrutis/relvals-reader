@@ -1,7 +1,7 @@
 import {EventEmitter} from "events";
 import dispatcher from "../dispatcher";
 import ShowArchActionTypes from "../Actions/ShowArchActionTypes";
-import config from "../config";
+import * as config from "../config";
 import {extractInfoFromArchs} from "../Utils/processing";
 import {getMultipleFiles, getSingleFile} from "../Utils/ajax";
 
