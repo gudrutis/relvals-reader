@@ -5,13 +5,13 @@ import JSONPretty from 'react-json-pretty';
 import queryString from 'query-string';
 import TogglesShowRow from "./TogglesShowRow";
 import {goToLinkWithoutHistoryUpdate, partiallyUpdateLocationQuery} from "../Utils/commons";
+import {Table} from "react-bootstrap";
 
 // Smart component tracking data change and laying basic layout
 class Layout extends Component {
     constructor(props) {
         super(props);
         this.doUpdateData = this.doUpdateData.bind(this);
-        // const {match, location} = props;
         this.state = {
             navigationHeight: 62,
         };
@@ -20,16 +20,6 @@ class Layout extends Component {
     componentWillMount() {
         RelValStore.on("change", this.doUpdateData);
     }
-
-    // getData({date, que}) {
-    //     const allArchs = RelValStore.getAllArchsForQue({date, que});
-    //     const allFlavors = RelValStore.getAllFlavorsForQue({date, que});
-    //     this.setState({allArchs, allFlavors, date, que});
-    //     const {location, history} = this.props;
-    //     // partiallyUpdateLocationQuery(location, 'allArchs', allArchs);
-    //     // partiallyUpdateLocationQuery(location, 'allFlavors', allFlavors);
-    //     // goToLinkWithoutHistoryUpdate(history, location);
-    // }
 
     doUpdateData() {
         const {date, que} = this.props.match.params;
@@ -88,7 +78,7 @@ class Layout extends Component {
         if (structure.dataLoaded) {
             data = <JSONPretty json={this.state}/>;
         } else {
-            data = <h1>Data is still loading</h1>
+            data = <h1>Data is loading</h1>
         }
         return (
             <div className={'container'} style={{paddingTop: navigationHeight + 20}}>

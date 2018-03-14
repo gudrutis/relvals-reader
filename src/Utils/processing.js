@@ -162,3 +162,13 @@ export function getStructureFromAvalableRelVals(relvalInfoObject) {
     return config;
 }
 
+export function transforListToObject(relValList) {
+    /**
+     * Will transform RelVal list to object where relVal id is the key
+     */
+    let relValObj = {};
+    relValList.map(i => {
+        relValObj[i.id] = i;
+    });
+    return relValObj;
+}

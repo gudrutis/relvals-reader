@@ -34,7 +34,7 @@ const _legendConf = [
     {color: LABEL_COLOR.DAS_ERROR_COLOR, code: LABELS_TEXT['DAS_ERROR'], text: 'DAS error'},
     {color: LABEL_COLOR.TIMEOUT_COLOR, code: LABELS_TEXT['TIMEOUT'], text: 'Timed Out'}
 ];
-// TODO kazka gal kitaip
+// TODO could be made better
 export const legend = [_legendConf.map(i => (
     <p>
         <span style={{backgroundColor: i.color}}
