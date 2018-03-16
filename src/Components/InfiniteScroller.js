@@ -108,7 +108,7 @@ class InfiniteScroller extends Component {
                     ({width, height}) => {
                         return (
                             <div style={{height, width}}>
-                                <div id="table-header" style={{width:'auto', display:'table'}}>
+                                <div id="table-header" style={{width:'500px', display:'table'}}>
                                     <div className="tr">
                                         <div className="td">a</div>
                                         <div className="td">a</div>

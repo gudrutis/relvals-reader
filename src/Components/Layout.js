@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import Navigation from "./Navigation";
 import RelValStore from "../Stores/RelValStore";
-import JSONPretty from 'react-json-pretty';
 import queryString from 'query-string';
 import TogglesShowRow from "./TogglesShowRow";
 import {goToLinkWithoutHistoryUpdate, partiallyUpdateLocationQuery} from "../Utils/commons";
-import ComparisonTable from "./ComparisonTable";
-import InfiniteScroller from "./InfiniteScroller";
-import Table from "react-bootstrap/es/Table";
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+
 
 // Smart component tracking data change and laying basic layout
 class Layout extends Component {
@@ -76,6 +75,10 @@ class Layout extends Component {
         return this.state.navigationHeight + 20;
     }
 
+    getSizeForTable() {
+        return document.documentElement.clientHeight - this.getTopPadding() - 20
+    }
+
     render() {
         const {navigationHeight, allArchs = [], allFlavors = []} = this.state;
         const {selectedArchs, selectedFlavors} = queryString.parse(this.props.location.search);
@@ -87,8 +90,84 @@ class Layout extends Component {
         } else {
             data = [];
         }
-        let id = 1;
-        let passed = 2;
+
+        const columns = [
+            {
+                Header: "",
+                columns: [
+                    {
+                        Header: "#",
+                        id: "index",
+                        accessor: d => <b>{d.index}</b>,
+                        maxWidth: 100
+                    }
+                ]
+            },
+            {
+                Header: "Name",
+
+                columns: [
+                    {
+                        Header: "First Name",
+                        accessor: "id"
+                    },
+                    {
+                        Header: "Last Name",
+                        id: "passed",
+                        accessor: d => d.passed ? d.passed.toString() : null
+                    },                    {
+                        Header: "First Name",
+                        accessor: "id"
+                    },
+                    {
+                        Header: "Last Name",
+                        id: "passed",
+                        accessor: d => d.passed ? d.passed.toString() : null
+                    },                    {
+                        Header: "First Name",
+                        accessor: "id"
+                    },
+                    {
+                        Header: "Last Name",
+                        id: "passed",
+                        accessor: d => d.passed ? d.passed.toString() : null
+                    },                    {
+                        Header: "First Name",
+                        accessor: "id"
+                    },
+                    {
+                        Header: "Last Name",
+                        id: "passed",
+                        accessor: d => d.passed ? d.passed.toString() : null
+                    },                    {
+                        Header: "First Name",
+                        accessor: "id"
+                    },
+                    {
+                        Header: "Last Name",
+                        id: "passed",
+                        accessor: d => d.passed ? d.passed.toString() : null
+                    },                    {
+                        Header: "First Name",
+                        accessor: "id"
+                    },
+                    {
+                        Header: "Last Name",
+                        id: "passed",
+                        accessor: d => d.passed ? d.passed.toString() : null
+                    },                    {
+                        Header: "First Name",
+                        accessor: "id"
+                    },
+                    {
+                        Header: "Last Name",
+                        id: "passed",
+                        accessor: d => d.passed ? d.passed.toString() : null
+                    },
+                ]
+            }
+        ];
+
         return (
             <div className={'container'} style={{paddingTop: this.getTopPadding()}}>
                 <Navigation
@@ -115,10 +194,14 @@ class Layout extends Component {
                             }}/>
                     }
                 />
-                <div className={"AutoSizerWrapper"}
-                     style={{height: `calc(100vh - ${this.getTopPadding() +20}px)`, overflowX: 'scroll'}}>
-                    <InfiniteScroller data={data}></InfiniteScroller>
-                </div>
+                <ReactTable
+                    data={data}
+                    columns={columns}
+                    defaultPageSize={50}
+                    style={{
+                        height: this.getSizeForTable()
+                    }}
+                />
             </div>
         );
     }

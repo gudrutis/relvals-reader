@@ -74,23 +74,26 @@ class RelValStore extends EventEmitter {
                                 let relValObject = transforListToObject(data);
                                 this.structure[date][que].flavors[flavor][arch] = relValObject;
                                 const keys = Object.keys(relValObject);
-                                keys.map(id => {
+                                keys.map((id) => {
                                     const exitCode = relValObject[id].exitcode;
                                     if (exitCode !== 0) {
                                         allRelValIDObject[id] = {
                                             id,
-                                            passed: false
+                                            passed: false,
                                         }
                                     } else if (!allRelValIDObject[id]) {
                                         allRelValIDObject[id] = {
                                             id,
-                                            passed: true
+                                            passed: true,
                                         }
                                     }
                                 })
                             }
                             let relValKeyList = Object.keys(allRelValIDObject).sort((a, b) => a - b);
-                            this.structure[date][que].allRelvals = relValKeyList.map(i => allRelValIDObject[i]);
+                            this.structure[date][que].allRelvals = relValKeyList.map((i,index) => {
+                                allRelValIDObject[i]['index'] = index;
+                                return allRelValIDObject[i];
+                            });
                             this.structure[date][que].dataLoaded = true; //set that data is loaded
                             this.emit("change");
                         }.bind(this)
