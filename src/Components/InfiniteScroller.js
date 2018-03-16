@@ -142,7 +142,7 @@ class InfiniteScroller extends Component {
                                 </div>
                                 <List
                                     rowCount={this.props.data.length}
-                                    width={width}
+                                    width={this.state.headerWidth}
                                     height={height - this.state.headerHeight - 20}
                                     deferredMeasurementCache={this.cache}
                                     rowHeight={this.cache.rowHeight}
