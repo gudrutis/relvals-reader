@@ -5,7 +5,9 @@ import JSONPretty from 'react-json-pretty';
 import queryString from 'query-string';
 import TogglesShowRow from "./TogglesShowRow";
 import {goToLinkWithoutHistoryUpdate, partiallyUpdateLocationQuery} from "../Utils/commons";
-import {Table} from "react-bootstrap";
+import ComparisonTable from "./ComparisonTable";
+import InfiniteScroller from "./InfiniteScroller";
+import Table from "react-bootstrap/es/Table";
 
 // Smart component tracking data change and laying basic layout
 class Layout extends Component {
@@ -70,18 +72,25 @@ class Layout extends Component {
         window.removeEventListener('resize', this.getNavigationHeight.bind(this));
     }
 
+    getTopPadding() {
+        return this.state.navigationHeight + 20;
+    }
+
     render() {
         const {navigationHeight, allArchs = [], allFlavors = []} = this.state;
         const {selectedArchs, selectedFlavors} = queryString.parse(this.props.location.search);
         let data;
         const {structure = {}} = this.state;
         if (structure.dataLoaded) {
-            data = <JSONPretty json={this.state}/>;
+            // data = <JSONPretty json={this.state.structure.allRelvals}/>;
+            data = this.state.structure.allRelvals;
         } else {
-            data = <h1>Data is loading</h1>
+            data = [];
         }
+        let id = 1;
+        let passed = 2;
         return (
-            <div className={'container'} style={{paddingTop: navigationHeight + 20}}>
+            <div className={'container'} style={{paddingTop: this.getTopPadding()}}>
                 <Navigation
                     flaworControl={
                         <TogglesShowRow
@@ -106,11 +115,10 @@ class Layout extends Component {
                             }}/>
                     }
                 />
-                <JSONPretty json={this.props}/>
-                <h1>Location search</h1>
-                <JSONPretty json={queryString.parse(this.props.location.search)}/>
-                <h1>State</h1>
-                {data}
+                <div className={"AutoSizerWrapper"}
+                     style={{height: `calc(100vh - ${this.getTopPadding() +20}px)`, overflowX: 'scroll'}}>
+                    <InfiniteScroller data={data}></InfiniteScroller>
+                </div>
             </div>
         );
     }
